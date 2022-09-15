@@ -1,0 +1,62 @@
+﻿@page "/flights"
+<h3>Flights</h3>
+@inject Adventure.Data.IFlightsService FlightsService;
+
+<hi>All airplanes</hi>
+<br />
+
+<a href="edit/0">Add new flight</a>
+<table class="table">
+    <thead>
+        <tr>
+            <td>Id</td>
+            <td>NameOfAirplane</td>
+            <td>Company</td>
+            <td>Seat</td>
+            <td>From</td>
+            <td>To</td>
+            <td>TakeOffTime</td>
+            <td>LandingTime</td>
+            <td></td>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var flight in flights)
+        {
+          <tr>
+            <td>@flight.Id</td>
+            <td>@flight.NameOfAirplane</td>
+            <td>@flight.Company</td>
+            <td>@flight.Seat</td>
+            <td>@flight.From</td>
+            <td>@flight.To</td>
+            <td>@flight.TakeOffTime</td>
+            <td>@flight.LandingTime</td>
+            <td>
+                <a href="edit/@flight.Id">
+                 <button class="btn btn-update">Update</button>
+                </a>
+            </td>
+            <td>
+                <button class="btn btn-delete" @onclick = "@(e=> OnDelete(flight.Id))">Delete</button>
+            </td>
+          </tr>
+        }
+    </tbody>
+</table>
+
+
+
+@code {
+    private List<Adventure.Data.Flight> flights;
+
+    protected override void OnInitialized()
+    {
+        flights = FlightsService.GetFlights();
+    }
+
+    private void OnDelete(Guid id)
+    {
+        FlightsService.DeleteFlight(id);
+    }
+}

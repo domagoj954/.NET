@@ -1,0 +1,76 @@
+﻿@page "/edit/{id}"
+@using Adventure.Data;
+@inject Adventure.Data.IFlightsService FlightsService;
+@inject NavigationManager Navigation
+
+<EditForm Model="flight" OnSubmit="@SubmitForm">
+    <div class="form-group">
+        <label>Id</label>
+        <input id="name" class="form-control" name="id" value="@flight.Id" readonly />
+    </div>
+    <div class="form-group">
+        <label>Name of Airplane</label>
+        <InputText id="NameOfAirplane" class="form-control" name="id" @bind-Value="flight.NameOfAirplane"></InputText>
+    </div>
+    <div class="form-group">
+        <label>Company</label>
+        <InputText id="Company" class="form-control" name="id" @bind-Value="flight.Company"></InputText>
+    </div>
+    <div class="form-group">
+        <label>Seat</label>
+        <InputText id="Seat" class="form-control" name="id" @bind-Value="flight.Seat"></InputText>
+    </div>
+    <div class="form-group">
+        <label>From</label>
+        <InputText id="From" class="form-control" name="id" @bind-Value="flight.From"></InputText>
+    </div>
+    <div class="form-group"> 
+        <label>To</label>
+        <InputText id="To" class="form-control" name="id" @bind-Value="flight.To"></InputText>
+    </div>
+    <div class="form-group">
+        <label>Take Off Time</label>
+        <InputText id="TakeOffTime" class="form-control" name="id" @bind-Value="flight.TakeOffTime"></InputText>
+    </div>
+    <div class="form-group">
+        <label>Landing Time</label>
+        <InputText id="LandingTime" class="form-control" name="id" @bind-Value="flight.LandingTime"></InputText>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Update</button>
+
+</EditForm>
+
+@code {
+    [Parameter]
+    public string? Id { get; set; }
+
+    private Adventure.Data.Flight flight { get; set; }
+
+    protected override void OnInitialized()
+    {
+        if(!string.IsNullOrEmpty(Id) & Id == "0")
+        {
+            flight = new Data.Flight();
+        }
+        else
+        {
+            flight = FlightsService.GetFlight(Guid.Parse(Id));
+        }
+
+    }
+
+    private void SubmitForm()
+    {
+        if(flight.Id == Guid.Empty)
+        {
+            FlightsService.AddFlight(flight);
+        }
+        else
+        {
+            FlightsService.UpdateFlight(flight);
+        }
+
+        Navigation.NavigateTo("flights");
+    }
+}

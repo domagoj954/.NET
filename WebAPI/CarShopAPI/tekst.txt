@@ -1,0 +1,16 @@
+{
+  "id": 0,
+  "name": "Tesla",
+  "address": "Austin",
+  "phoneNumber": 11111,
+  "ceo": "Elon Musk",
+  "cars": [
+    {
+      "id": 0,
+      "shopId": 1,
+      "model": "Model S",
+      "color": "white",
+      "price": "$ 100,000"
+    }
+  ]
+}
